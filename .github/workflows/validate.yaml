@@ -7,9 +7,7 @@ on:
       - '**.tfvars'
       - '.github/workflows/validate.yml'
   push:
-    branches:
-      - main
-
+   
 jobs:
   tofu-validate:
     runs-on: ubuntu-latest
@@ -21,6 +19,10 @@ jobs:
         uses: opentofu/setup-opentofu@v1
         with:
           tofu_version: 1.6.0
+
+      - name: Init Opentofu
+        run: tofu init
+        if: always()
 
       - name: OpenTofu Format Check
         run: tofu fmt -check -recursive .
